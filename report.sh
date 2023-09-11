@@ -1,5 +1,7 @@
 #!/bin/bash
 
+source ~/config/massa.sh
+
 ver=$(cat ~/logs/massa.log | grep -a "Node version :" | tail -1 | awk '{print $8}')
 pid=$(pgrep massa-node)
 note=""
