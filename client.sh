@@ -1,5 +1,7 @@
 #!/bin/bash
 
+source ~/config/massa.sh
+
 echo "--- COMMANDS ---"
 echo "wallet_info"
 echo "buy_rolls "$massaadr" 1 0"
