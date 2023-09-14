@@ -7,7 +7,7 @@ pid=$(pgrep massa-node)
 note=""
 network="testnet"
 type="-"
-now=$(date +'%Y-%m-%d %H:%M:%S')
+now=$(date +'%y-%m-%d %H:%M')
 foldersize=$(du -hs ~/massa | awk '{print $1}')
 logsize=$(du -hs ~/logs/massa.log | awk '{print $1}')
 
