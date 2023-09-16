@@ -1,6 +1,6 @@
 #!/bin/bash
 
-source ~/config/massa.sh
+source ~/scripts/massa/config/env
 
 echo "--- COMMANDS ---"
 echo "wallet_info"
