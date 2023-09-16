@@ -16,7 +16,7 @@ case $sure in
   rustc --version
   git clone --branch testnet https://github.com/massalabs/massa.git
 
-  if [ -f ~/scripts/massa/config/env] 
+  if [ -f ~/scripts/massa/config/env ] 
     then
       echo "Config file found."
     else
