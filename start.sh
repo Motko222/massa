@@ -1,6 +1,6 @@
 #!/bin/bash
 
-source ~/config/massa.sh
+source ~/scripts/massa/config/env
 
 echo "Killing process..."
 pkill massa-client
