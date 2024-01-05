@@ -11,8 +11,8 @@ case $sure in
   curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
   source ~/.cargo/env
   rustc --version
-  rustup toolchain install 1.72.0
-  rustup default 1.72.0
+  rustup toolchain install 1.74.1
+  rustup default 1.74.1
   rustc --version
   git clone --branch testnet https://github.com/massalabs/massa.git
 
