@@ -5,7 +5,7 @@ source ~/scripts/massa/config/env
 ver=$(cat ~/logs/massa.log | grep -a "Node version :" | tail -1 | awk '{print $8}')
 pid=$(pgrep massa-node)
 note=""
-network="testnet"
+network="mainnet"
 type="-"
 now=$(date +'%y-%m-%d %H:%M')
 foldersize=$(du -hs ~/massa | awk '{print $1}')
@@ -19,18 +19,6 @@ then status="error";
  cargo run --release -- -p $massapwd >~/logs/massa.log 2>&1 &
 else status="ok";
 fi
-
-#echo "updated:            "$now
-#echo "version:            "$ver
-#echo "process:            "$pid
-#echo "status:             "$status
-#echo "note:               "$note
-#echo "network:            "$network
-#echo "type:               "$type
-#echo "folder size:        "$foldersize
-#echo "log size:           "$logsize
-#echo "id:                 "$massapwd
-#echo "wallet:             "$massaadr
 
 echo "updated='$now'"
 echo "version='$ver'"
