@@ -10,4 +10,5 @@ echo "wallet_add_secret_keys <your_secret_key>"
 #echo "node_testnet_rewards_program_ownership_proof "$massaadr" "$discordid
 echo "---"
 cd ~/massa/massa-client
-cargo run -- --wallet wallet.dat
+cargo run --release -- -p $massapwd
+#cargo run -- --wallet wallet.dat
