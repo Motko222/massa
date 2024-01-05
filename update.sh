@@ -13,7 +13,7 @@ case $sure in
   cd ~/massa
   git stash
   git remote set-url origin https://github.com/massalabs/massa.git
-  git checkout testnet
+  git checkout mainnet
   git pull
   echo "Restoring..."
   cp ~/scripts/massa/config/node_privkey.key ~/massa/massa-node/config
