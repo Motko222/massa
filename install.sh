@@ -4,7 +4,7 @@ read -p "Sure ? " sure
 
 case $sure in
  y|Y)
-  cd $~
+  cd ~
   pkill massa-node
   rm -r ~/massa
   sudo apt install pkg-config curl git build-essential libssl-dev libclang-dev cmake
