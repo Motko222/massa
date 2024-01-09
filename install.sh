@@ -14,7 +14,7 @@ case $sure in
   rustup toolchain install 1.74.1
   rustup default 1.74.1
   rustc --version
-  git clone --branch testnet https://github.com/massalabs/massa.git
+  git clone --branch mainnet https://github.com/massalabs/massa.git
 
   if [ -f ~/scripts/massa/config/env ] 
     then
