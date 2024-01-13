@@ -12,7 +12,7 @@ type="node"
 now=$(date +'%y-%m-%d %H:%M')
 foldersize=$(du -hs ~/massa | awk '{print $1}')
 cpu=$(sudo systemctl status massad --no-pager | grep CPU | awk '{print $2}')
-mem=$(sudo systemctl status massad --no-pager | grep memory | awk '{print $2}')
+mem=$(sudo systemctl status massad --no-pager | grep Memory | awk '{print $2}')
 #logsize=$(du -hs ~/logs/massa.log | awk '{print $1}')
 
 if [ $service -ne 1 ]
