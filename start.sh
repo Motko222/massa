@@ -9,4 +9,5 @@ source ~/scripts/massa/config/env
 #echo "Starting..."
 #cargo run --release -- -p $massapwd >~/logs/massa.log 2>&1 &
 
-sudo systemctl restart massad 
+sudo systemctl restart massad
+sudo journalctl -u massad.service -f --no-hostname -o cat
