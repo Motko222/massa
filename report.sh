@@ -2,7 +2,7 @@
 
 source ~/scripts/massa/config/env
 
-ver=$(cat ~/logs/massa.log | grep -a "Node version :" | tail -1 | awk '{print $8}')
+#ver=$(cat ~/logs/massa.log | grep -a "Node version :" | tail -1 | awk '{print $8}')
 pid=$(pgrep massa-node)
 note=""
 network="mainnet"
@@ -12,13 +12,13 @@ foldersize=$(du -hs ~/massa | awk '{print $1}')
 logsize=$(du -hs ~/logs/massa.log | awk '{print $1}')
 
 
-if [ -z $pid ];
-then status="error";
- note="node restarted";
- cd ~/massa/massa-node;
- cargo run --release -- -p $massapwd >~/logs/massa.log 2>&1 &
-else status="ok";
-fi
+#if [ -z $pid ];
+#then status="error";
+# note="node restarted";
+# cd ~/massa/massa-node;
+# cargo run --release -- -p $massapwd >~/logs/massa.log 2>&1 &
+#else status="ok";
+#fi
 
 echo "updated='$now'"
 echo "version='$ver'"
