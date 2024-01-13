@@ -33,7 +33,7 @@ After=network-online.target
 [Service]
 User=$USER
 WorkingDirectory=$HOME/massa/massa-node
-ExecStart=$HOME/massa/massa-node/massa-node -p $massapwd
+ExecStart=/root/.cargo/bin/cargo run --release -- -p $massapwd
 Restart=on-failure
 RestartSec=3
 LimitNOFILE=65535
