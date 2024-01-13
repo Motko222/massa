@@ -1,3 +1,5 @@
 #!/bin/bash
 
-pkill massa-node
+#pkill massa-node
+
+sudo systemctl stop massad 
