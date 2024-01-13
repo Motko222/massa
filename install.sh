@@ -5,7 +5,9 @@ read -p "Sure ? " sure
 case $sure in
  y|Y)
   cd ~
-  pkill massa-node
+  #pkill massa-node
+  sudo systemctl stop massad 
+  
   rm -r ~/massa
   sudo apt install pkg-config curl git build-essential libssl-dev libclang-dev cmake
   curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
