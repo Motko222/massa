@@ -1,33 +1,28 @@
 #!/bin/bash
 
 read -p "Sure ? " sure
+if [ $sure -ne "y" -a $sure -ne "Y" ]; then exit 1; fi
 
-case $sure in
- y|Y)
-  cd ~
-  #pkill massa-node
-  sudo systemctl stop massad 
-  
-  rm -r ~/massa
-  sudo apt install pkg-config curl git build-essential libssl-dev libclang-dev cmake
-  curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
-  source ~/.cargo/env
-  rustc --version
-  rustup toolchain install 1.74.1
-  rustup default 1.74.1
-  rustc --version
-  git clone --branch mainnet https://github.com/massalabs/massa.git
+cd ~
+#pkill massa-node
+sudo systemctl stop massad 
 
-  if [ -f ~/scripts/massa/config/env ] 
-    then
-      echo "Config file found."
-    else
-     read -p "Password? " massapwd
-     read -p "Wallet? " massaadr
-     echo "massapwd="$massapwd >> ~/scripts/massa/config/env
-     echo "massaadr="$massaadr > ~/scripts/massa/config/env
-     echo "Config file created."
-  fi
+rm -r ~/massa
+sudo apt install pkg-config curl git build-essential libssl-dev libclang-dev cmake
+curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+source ~/.cargo/env
+rustc --version
+rustup toolchain install 1.74.1
+rustup default 1.74.1
+rustc --version
+git clone --branch mainnet https://github.com/massalabs/massa.git
+
+cat << EOF
+Add following entries to ~/.bash_profile
+ export MASSA_ID=
+ export MASSA_PWD=
+ export MASSA_WALLET=
+EOF
 
 printf "[Unit]
 Description=Massa Node
@@ -45,6 +40,3 @@ WantedBy=multi-user.target" > /etc/systemd/system/massad.service
 sudo systemctl daemon-reload
 sudo systemctl enable massad
 
- ;;
-*) echo Cancelled... ;;
-esac
