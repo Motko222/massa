@@ -1,7 +1,7 @@
 #!/bin/bash
 
 source ~/.bash_profile
-
+cd ~/massa/massa-client
 version=$(cat ~/massa/massa-node/Cargo.toml | grep "version =" | cut -d \" -f 2)
 service=$(sudo systemctl status massad --no-pager | grep "active (running)" | wc -l)
 chain="mainnet"
