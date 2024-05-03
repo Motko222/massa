@@ -8,6 +8,9 @@ chain="mainnet"
 foldersize=$(du -hs ~/massa | awk '{print $1}')
 cpu=$(sudo systemctl status massad --no-pager | grep CPU | awk '{print $2}')
 mem=$(sudo systemctl status massad --no-pager | grep Memory | awk '{print $2}')
+final_balance=$(cargo run --release -- -p motko --json wallet_info 2>/dev/null | jq -r --arg jq_par $MASSA_WALLET '.[$jq_par].address_info.final_balance' | cut -d . -f 1)
+active_rolls=$(cargo run --release -- -p motko --json wallet_info 2>/dev/null | jq -r --arg jq_par $MASSA_WALLET '.[$jq_par].address_info.active_rolls')
+
 id=massa-$MASSA_ID
 bucket=node
 
@@ -17,6 +20,7 @@ then
   message="service not running"
 else 
   status="ok";
+  message="rol $active_rolls bal $final_balance";
 fi
 
 cat << EOF
@@ -28,6 +32,8 @@ cat << EOF
   "status":"$status",
   "message":"$message",
   "service":$service,
+  "final_balance":$final_balance,
+  "active_rolls":$active_rolls,
   "updated":"$(date --utc +%FT%TZ)"
 }
 EOF
