@@ -8,12 +8,17 @@ cp ~/massa/massa-node/config/node_privkey.key ~/
 cp ~/massa/massa-node/config/config.toml ~/
 cp ~/massa/massa-client/wallet.dat ~/
 
+read -p "tag? (https://github.com/massalabs/massa/releases) " tag
+
 echo "Updating..."
 cd ~/massa
-git stash
-git remote set-url origin https://github.com/massalabs/massa.git
-git checkout mainnet
-git pull
+#git stash
+#git remote set-url origin https://github.com/massalabs/massa.git
+#git checkout mainnet
+#git pull
+
+git fetch
+git checkout $tag
 
 echo "Restoring..."
 cp ~/node_privkey.key ~/massa/massa-node/config
