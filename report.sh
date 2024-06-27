@@ -13,7 +13,7 @@ active_rolls=$(cargo run --release -- -p motko --json wallet_info 2>/dev/null | 
 
 id=$MASSA_ID
 group=node
-network=testnet
+network=mainnet
 
 if [ $service -ne 1 ]
 then 
