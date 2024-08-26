@@ -8,18 +8,19 @@ chain="mainnet"
 foldersize=$(du -hs ~/massa | awk '{print $1}')
 cpu=$(sudo systemctl status massad --no-pager | grep CPU | awk '{print $2}')
 mem=$(sudo systemctl status massad --no-pager | grep Memory | awk '{print $2}')
-final_balance=$(cargo run --release -- -p motko --json wallet_info 2>/dev/null | jq -r --arg jq_par $MASSA_WALLET '.[$jq_par].address_info.final_balance' | cut -d . -f 1)
-active_rolls=$(cargo run --release -- -p motko --json wallet_info 2>/dev/null | jq -r --arg jq_par $MASSA_WALLET '.[$jq_par].address_info.active_rolls')
+final_balance=$(cargo run --release -- -p $MASSA_PWD --json wallet_info 2>/dev/null | jq -r --arg jq_par $MASSA_WALLET '.[$jq_par].address_info.final_balance' | cut -d . -f 1)
+active_rolls=$(cargo run --release -- -p $MASSA_PWD --json wallet_info 2>/dev/null | jq -r --arg jq_par $MASSA_WALLET '.[$jq_par].address_info.active_rolls')
 
 #autostake
 if [ $final_balance -gt 100 ]
 then
- cargo run --release -- -p motko --json buy_rolls $MASSA_WALLET 1 0.01 2>/dev/null
+ cargo run --release -- -p $MASSA_PWD buy_rolls $MASSA_WALLET 1 0.01 2>/dev/null
 fi
 
 id=$MASSA_ID
 group=node
 network=mainnet
+owner=$OWNER
 
 if [ $service -ne 1 ]
 then 
