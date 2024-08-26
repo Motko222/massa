@@ -12,7 +12,10 @@ final_balance=$(cargo run --release -- -p motko --json wallet_info 2>/dev/null |
 active_rolls=$(cargo run --release -- -p motko --json wallet_info 2>/dev/null | jq -r --arg jq_par $MASSA_WALLET '.[$jq_par].address_info.active_rolls')
 
 #autostake
-cargo run --release -- -p motko --json buy_rolls AU1m1eypzykqLjeNDJDtTSZd41TLLzypUZaXbMHdU6rsvLzWG9jC 1 0.01
+if [ $final_balance -gt 100 ]
+then
+ cargo run --release -- -p motko --json buy_rolls $MASSA_WALLET 1 0.01 2>/dev/null
+fi
 
 id=$MASSA_ID
 group=node
