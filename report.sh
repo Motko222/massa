@@ -1,10 +1,13 @@
 #!/bin/bash
 
+path=$(cd -- $(dirname -- "${BASH_SOURCE[0]}") && pwd)
+folder=$(echo $path | awk -F/ '{print $NF}')
+json=~/logs/report-$folder
 source ~/.bash_profile
+
 cd ~/massa/massa-client
 version=$(cat ~/massa/massa-node/Cargo.toml | grep "version =" | cut -d \" -f 2)
 service=$(sudo systemctl status massad --no-pager | grep "active (running)" | wc -l)
-chain="mainnet"
 foldersize=$(du -hs ~/massa | awk '{print $1}')
 cpu=$(sudo systemctl status massad --no-pager | grep CPU | awk '{print $2}')
 mem=$(sudo systemctl status massad --no-pager | grep Memory | awk '{print $2}')
@@ -17,11 +20,6 @@ then
  cargo run --release -- -p $MASSA_PWD buy_rolls $MASSA_WALLET 1 0.01 2>/dev/null
 fi
 
-id=$MASSA_ID
-group=node
-network=mainnet
-owner=$OWNER
-
 if [ $service -ne 1 ]
 then 
   status="error";
@@ -31,30 +29,26 @@ else
   message="rol $active_rolls bal $final_balance";
 fi
 
-cat << EOF
-{
-  "id":"$id",
-  "machine":"$MACHINE",
-  "chain":"$chain",
-  "type":"node",
-  "status":"$status",
-  "message":"$message",
-  "service":$service,
-  "final_balance":$final_balance,
-  "active_rolls":$active_rolls,
-  "updated":"$(date --utc +%FT%TZ)"
+cat >$json << EOF
+{ 
+  "updated":"$(date --utc +%FT%TZ)",
+  "measurement":"report",
+  "tags": {
+        "id":"$folder",
+        "machine":"$MACHINE",
+        "owner":"$OWNER",
+        "grp":"node" 
+  },
+  "fields": {
+        "chain":"mainnet",
+        "chain":"mainnet",
+        "status":"$status",
+        "message":"$message",
+        "service":$service,
+        "final_balance":$final_balance,
+        "active_rolls":$active_rolls
+  }
 }
 EOF
 
-# send data to influxdb
-if [ ! -z $INFLUX_HOST ]
-then
- curl --request POST \
- "$INFLUX_HOST/api/v2/write?org=$INFLUX_ORG&bucket=$INFLUX_BUCKET&precision=ns" \
-  --header "Authorization: Token $INFLUX_TOKEN" \
-  --header "Content-Type: text/plain; charset=utf-8" \
-  --header "Accept: application/json" \
-  --data-binary "
-    report,id=$id,machine=$MACHINE,grp=$group,owner=$owner status=\"$status\",message=\"$message\",version=\"$version\",url=\"$url\",chain=\"$chain\",network=\"$network\" $(date +%s%N) 
-    "
-fi
+cat $json | jq
