@@ -40,7 +40,7 @@ cat >$json << EOF
         "grp":"node" 
   },
   "fields": {
-        "chain":"mainnet",
+        "network":"mainnet",
         "chain":"mainnet",
         "status":"$status",
         "message":"$message",
