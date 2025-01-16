@@ -17,7 +17,7 @@ active_rolls=$(cargo run --release -- -p $MASSA_PWD --json wallet_info 2>/dev/nu
 #autostake
 if [ $final_balance -gt 100 ]
 then
- cargo run --release -- -p $MASSA_PWD buy_rolls $MASSA_WALLET 1 0.01 2>/dev/null
+ cargo run --release -- -p $MASSA_PWD buy_rolls $MASSA_WALLET $(( $final_balance / 100 )) 0.01 2>/dev/null
 fi
 
 if [ $service -ne 1 ]
