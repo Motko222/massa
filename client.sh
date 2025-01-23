@@ -1,6 +1,9 @@
 #!/bin/bash
 
-source ~/.bash_profile
+path=$(cd -- $(dirname -- "${BASH_SOURCE[0]}") && pwd)
+folder=$(echo $path | awk -F/ '{print $NF}')
+source $path/config
+source /root/.bash_profile
 
 echo "--- COMMANDS ---"
 echo "wallet_info"
