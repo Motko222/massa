@@ -19,13 +19,6 @@ rustup default 1.74.1
 rustc --version
 git clone --branch mainnet https://github.com/massalabs/massa.git
 
-cat << EOF
-Add following entries to ~/.bash_profile
- export MASSA_ID=
- export MASSA_PWD=
- export MASSA_WALLET=
-EOF
-
 printf "[Unit]
 Description=Massa Node
 After=network-online.target
