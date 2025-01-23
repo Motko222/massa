@@ -16,7 +16,7 @@ Restart=on-failure
 RestartSec=3
 LimitNOFILE=65535
 [Install]
-WantedBy=multi-user.target" > /etc/systemd/system/massad.service
+WantedBy=multi-user.target" > /etc/systemd/system/$folder.service
 
 sudo systemctl daemon-reload
 sudo systemctl enable $folder
