@@ -11,13 +11,13 @@ service=$(sudo systemctl status massad --no-pager | grep "active (running)" | wc
 foldersize=$(du -hs ~/massa | awk '{print $1}')
 cpu=$(sudo systemctl status massad --no-pager | grep CPU | awk '{print $2}')
 mem=$(sudo systemctl status massad --no-pager | grep Memory | awk '{print $2}')
-final_balance=$(cargo run --release -- -p $MASSA_PWD --json wallet_info 2>/dev/null | jq -r --arg jq_par $MASSA_WALLET '.[$jq_par].address_info.final_balance' | cut -d . -f 1)
-active_rolls=$(cargo run --release -- -p $MASSA_PWD --json wallet_info 2>/dev/null | jq -r --arg jq_par $MASSA_WALLET '.[$jq_par].address_info.active_rolls')
+final_balance=$(cargo run --release -- -p $PASSWORD --json wallet_info 2>/dev/null | jq -r --arg jq_par $WALLET '.[$jq_par].address_info.final_balance' | cut -d . -f 1)
+active_rolls=$(cargo run --release -- -p $PASSWORD --json wallet_info 2>/dev/null | jq -r --arg jq_par $WALLET '.[$jq_par].address_info.active_rolls')
 
 #autostake
 if [ $final_balance -gt 100 ]
 then
- cargo run --release -- -p $MASSA_PWD buy_rolls $MASSA_WALLET $(( $final_balance / 100 )) 0.01 2>/dev/null
+ cargo run --release -- -p $PASSWORD buy_rolls $WALLET $(( $final_balance / 100 )) 0.01 2>/dev/null
 fi
 
 if [ $service -ne 1 ]
