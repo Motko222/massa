@@ -3,9 +3,11 @@
 read -p "Sure ? " sure
 if [ $sure -ne "y" -a $sure -ne "Y" ]; then exit 1; fi
 
+path=$(cd -- $(dirname -- "${BASH_SOURCE[0]}") && pwd)
+folder=$(echo $path | awk -F/ '{print $NF}')
+
 cd ~
-#pkill massa-node
-sudo systemctl stop massad 
+sudo systemctl stop $folder 
 
 rm -r ~/massa
 sudo apt install pkg-config curl git build-essential libssl-dev libclang-dev cmake
@@ -28,9 +30,9 @@ printf "[Unit]
 Description=Massa Node
 After=network-online.target
 [Service]
-User=$USER
-WorkingDirectory=$HOME/massa/massa-node
-ExecStart=/root/.cargo/bin/cargo run --release -- -p $MASSA_PWD
+User=root
+WorkingDirectory=/root/massa/massa-node
+ExecStart=/root/.cargo/bin/cargo run --release -- -p $PASSWORD
 Restart=on-failure
 RestartSec=3
 LimitNOFILE=65535
@@ -38,5 +40,5 @@ LimitNOFILE=65535
 WantedBy=multi-user.target" > /etc/systemd/system/massad.service
 
 sudo systemctl daemon-reload
-sudo systemctl enable massad
+sudo systemctl enable $folder
 
