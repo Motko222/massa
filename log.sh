@@ -1,4 +1,7 @@
 #!/bin/bash
 
-sudo journalctl -u massad.service -f --no-hostname -o cat
+path=$(cd -- $(dirname -- "${BASH_SOURCE[0]}") && pwd)
+folder=$(echo $path | awk -F/ '{print $NF}')
+
+sudo journalctl -u $folder.service -f --no-hostname -o cat
 
