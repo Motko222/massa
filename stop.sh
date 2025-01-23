@@ -1,5 +1,6 @@
 #!/bin/bash
 
-#pkill massa-node
+path=$(cd -- $(dirname -- "${BASH_SOURCE[0]}") && pwd)
+folder=$(echo $path | awk -F/ '{print $NF}')
 
-sudo systemctl stop massad 
+sudo systemctl stop $folder 
