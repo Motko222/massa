@@ -2,8 +2,9 @@
 
 path=$(cd -- $(dirname -- "${BASH_SOURCE[0]}") && pwd)
 folder=$(echo $path | awk -F/ '{print $NF}')
+path=$(cd -- cd $path
+source config
 json=~/logs/report-$folder
-source ~/.bash_profile
 
 cd ~/massa/massa-client
 version=$(cat ~/massa/massa-node/Cargo.toml | grep "version =" | cut -d \" -f 2)
