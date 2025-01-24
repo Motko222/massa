@@ -3,10 +3,10 @@
 path=$(cd -- $(dirname -- "${BASH_SOURCE[0]}") && pwd)
 folder=$(echo $path | awk -F/ '{print $NF}')
 source config
-json=~/logs/report-$folder
+json=/root/logs/report-$folder
 
-cd ~/massa/massa-client
-version=$(cat ~/massa/massa-node/Cargo.toml | grep "version =" | cut -d \" -f 2)
+cd /root/massa/massa-client
+version=$(cat /root/massa/massa-node/Cargo.toml | grep "version =" | cut -d \" -f 2)
 service=$(sudo systemctl status $folder --no-pager | grep "active (running)" | wc -l)
 final_balance=$(cargo run --release -- -p $PASSWORD --json wallet_info 2>/dev/null | jq -r --arg jq_par $WALLET '.[$jq_par].address_info.final_balance' | cut -d . -f 1)
 active_rolls=$(cargo run --release -- -p $PASSWORD --json wallet_info 2>/dev/null | jq -r --arg jq_par $WALLET '.[$jq_par].address_info.active_rolls')
