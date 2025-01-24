@@ -2,7 +2,7 @@
 
 path=$(cd -- $(dirname -- "${BASH_SOURCE[0]}") && pwd)
 folder=$(echo $path | awk -F/ '{print $NF}')
-source config
+source $path/config
 json=/root/logs/report-$folder
 
 cd /root/massa/massa-client
