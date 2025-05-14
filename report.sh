@@ -39,6 +39,7 @@ cat >$json << EOF
   "fields": {
         "network":"mainnet",
         "chain":"mainnet",
+        "version":"version",
         "status":"$status",
         "message":"$message",
         "service":$service,
