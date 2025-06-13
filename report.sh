@@ -42,7 +42,7 @@ cat >$json << EOF
         "version":"$version",
         "status":"$status",
         "message":"$message",
-        "m1":"fin=$final_balance act=$active_rolls"
+        "m1":"rol=$active_rolls fin=$final_balance"
   }
 }
 EOF
