@@ -23,7 +23,7 @@ then
   message="service not running"
 else 
   status="ok";
-  message="rol $active_rolls bal $final_balance";
+  message="";
 fi
 
 cat >$json << EOF
@@ -31,7 +31,7 @@ cat >$json << EOF
   "updated":"$(date --utc +%FT%TZ)",
   "measurement":"report",
   "tags": {
-        "id":"$folder",
+        "id":"$folder-$ID",
         "machine":"$MACHINE",
         "owner":"$OWNER",
         "grp":"node" 
@@ -43,8 +43,7 @@ cat >$json << EOF
         "status":"$status",
         "message":"$message",
         "service":$service,
-        "final_balance":$final_balance,
-        "active_rolls":$active_rolls
+        "m1":"fin=$final_balance act=$active_rolls"
   }
 }
 EOF
