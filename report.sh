@@ -38,7 +38,7 @@ cat >$json << EOF
   },
   "fields": {
         "network":"mainnet",
-        "chain":"mainnet",
+        "chain":"massa",
         "version":"$version",
         "status":"$status",
         "message":"$message",
