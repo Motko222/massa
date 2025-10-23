@@ -11,7 +11,7 @@ After=network-online.target
 [Service]
 User=root
 WorkingDirectory=/root/massa/massa-node
-ExecStart=/root/.cargo/bin/cargo run --release -- -a -p $PASSWORD
+ExecStart=/root/.cargo/bin/cargo run --release -- -p $PASSWORD
 Restart=on-failure
 RestartSec=3
 LimitNOFILE=65535
