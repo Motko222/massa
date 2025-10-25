@@ -19,7 +19,7 @@ then
 fi
 
 status="ok"; message="";
-[ -z $node_error ] && status="error" && message=$node_error
+[ $node_error ] && status="error" && message=$node_error
 [ $service -ne 1 ] && status="error" && message="service not running"
 
 cat >$json << EOF
