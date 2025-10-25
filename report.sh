@@ -19,7 +19,7 @@ then
 fi
 
 status="ok"; message="";
-[ $node_error ] && status="error" && message=$node_error
+[ "$node_error" ] && status="error" && message=$node_error
 [ $service -ne 1 ] && status="error" && message="service not running"
 
 cat >$json << EOF
@@ -39,7 +39,7 @@ cat >$json << EOF
         "status":"$status",
         "message":"$message",
         "m1":"rol=$active_rolls fin=$final_balance",
-        "m2":"$node_error"
+        "m2":""
   }
 }
 EOF
