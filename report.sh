@@ -10,6 +10,7 @@ version=$(cat /root/massa/massa-node/Cargo.toml | grep "version =" | cut -d \" -
 service=$(sudo systemctl status $folder --no-pager | grep "active (running)" | wc -l)
 final_balance=$(cargo run --release -- -p $PASSWORD --json wallet_info 2>/dev/null | jq -r --arg jq_par $WALLET '.[$jq_par].address_info.final_balance' | cut -d . -f 1)
 active_rolls=$(cargo run --release -- -p $PASSWORD --json wallet_info 2>/dev/null | jq -r --arg jq_par $WALLET '.[$jq_par].address_info.active_rolls')
+node_error=$(cargo run --release -- -p $PASSWORD --json get_status 2>/dev/null | jq -r .error )
 
 #autostake
 if [ $final_balance -gt 100 ]
@@ -23,7 +24,7 @@ then
   message="service not running"
 else 
   status="ok";
-  message="";
+  message="$node_error";
 fi
 
 cat >$json << EOF
