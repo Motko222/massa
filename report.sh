@@ -38,7 +38,8 @@ cat >$json << EOF
         "version":"$version",
         "status":"$status",
         "message":"$message",
-        "m1":"rol=$active_rolls fin=$final_balance"
+        "m1":"rol=$active_rolls fin=$final_balance",
+        "m2":"$node_error"
   }
 }
 EOF
