@@ -1,7 +1,7 @@
 #!/bin/bash
 
-read -p "Sure ? " sure
-if [ $sure -ne "y" -a $sure -ne "Y" ]; then exit 1; fi
+read -p "Sure? " c
+case $c in y|Y) ;; *) exit ;; esac
 
 echo "Backing up..."
 cp -r ~/massa/massa-node/config/staking_wallets ~/backup/massa/massa-node/config
