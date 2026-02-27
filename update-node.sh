@@ -6,8 +6,8 @@ case $c in y|Y) ;; *) exit ;; esac
 echo "Backing up..."
 cp -r ~/massa/massa-node/config/staking_wallets ~/backup/massa/massa-node/config
 cp -r ~/massa/massa-client/wallets ~/backup/massa/massa-client
-#cp -r ~/massa/massa-node/config/config.toml ~/backup/massa/massa-node/config
-#cp -r ~/massa/massa-client/config/config.toml ~/backup/massa/massa-client/config
+cp -r ~/massa/massa-node/config/config.toml ~/backup/massa/massa-node/config
+cp -r ~/massa/massa-client/config/config.toml ~/backup/massa/massa-client/config
 
 read -p "tag? (https://github.com/massalabs/massa/releases) " tag
 
@@ -21,9 +21,9 @@ cd ~/massa
 git fetch
 git checkout $tag
 
-echo "Restoring..."
-cp -r ~/backup/massa/massa-node/config/staking_wallets  ~/massa/massa-node/config
-cp -r ~/backup/massa/massa-client/wallets ~/massa/massa-client
+#echo "Restoring..."
+#cp -r ~/backup/massa/massa-node/config/staking_wallets  ~/massa/massa-node/config
+#cp -r ~/backup/massa/massa-client/wallets ~/massa/massa-client
 #cp ~/backup/massa/massa-node/config/config.toml ~/massa/massa-node/config
 #cp ~/backup/massa/massa-client/config/config.toml ~/massa/massa-client/config
 
