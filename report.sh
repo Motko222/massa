@@ -10,7 +10,8 @@ version=$(cat /root/massa/massa-node/Cargo.toml | grep "version =" | cut -d \" -
 service=$(sudo systemctl status $folder --no-pager | grep "active (running)" | wc -l)
 final_balance=$(cargo run --release -- -p $PASSWORD --json wallet_info 2>/dev/null | jq -r --arg jq_par $WALLET '.[$jq_par].address_info.final_balance' | cut -d . -f 1)
 active_rolls=$(cargo run --release -- -p $PASSWORD --json wallet_info 2>/dev/null | jq -r --arg jq_par $WALLET '.[$jq_par].address_info.active_rolls')
-node_error=$(cargo run --release -- -p $PASSWORD --json get_status 2>/dev/null | jq -r .error | sed 's/\"//g'  )
+node_error=$(cargo run --release -- -p $PASSWORD --json get_status 2>/dev/null | jq -r .error | sed 's/\"//g')
+errors=$(journalctl -u $folder.service --since "1 hour ago" --no-hostname -o cat | grep -c -E "rror|ERR")
 
 #autostake
 if [ $final_balance -gt 100 ]
@@ -20,6 +21,7 @@ fi
 
 status="ok"; message="";
 [ "$node_error" -ne "null" ] && status="error" && message=$node_error
+[ $errors -gt 100 ] && status="warning" && message="$errors errors last hour"
 [ $service -ne 1 ] && status="error" && message="service not running"
 
 cat >$json << EOF
@@ -38,6 +40,7 @@ cat >$json << EOF
         "version":"$version",
         "status":"$status",
         "message":"$message",
+        "errors":"$errors",
         "m1":"rol=$active_rolls fin=$final_balance",
         "m2":""
   }
