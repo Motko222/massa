@@ -1,32 +1,34 @@
 #!/bin/bash
+# Update the Massa node to a new release tag.
+# Usage: update-node.sh <tag>   (see https://github.com/massalabs/massa/releases)
+set -e
 
-read -p "Sure? " c
-case $c in y|Y) ;; *) exit ;; esac
+if [[ -z "$1" ]]; then
+  echo "Usage: $0 <tag>  (see https://github.com/massalabs/massa/releases)"
+  exit 1
+fi
+TAG="$1"
 
-echo "Backing up..."
-cp -r ~/massa/massa-node/config/staking_wallets ~/backup/massa/massa-node/config
-cp -r ~/massa/massa-client/wallets ~/backup/massa/massa-client
-cp -r ~/massa/massa-node/config/config.toml ~/backup/massa/massa-node/config
-cp -r ~/massa/massa-client/config/config.toml ~/backup/massa/massa-client/config
+TS=$(date +%Y%m%d%H%M%S)
+BK="$HOME/backup/massa/$TS"
+mkdir -p "$BK/massa-node/config" "$BK/massa-client"
 
-read -p "tag? (https://github.com/massalabs/massa/releases) " tag
+echo "Stopping massa.service..."
+systemctl stop massa.service
 
-echo "Updating..."
+echo "Backing up config/wallets to $BK..."
+cp -r ~/massa/massa-node/config/staking_wallets  "$BK/massa-node/config/"
+cp -r ~/massa/massa-node/config/config.toml       "$BK/massa-node/config/"
+cp -r ~/massa/massa-node/config/node_privkey.key  "$BK/massa-node/config/"
+cp -r ~/massa/massa-client/wallets                "$BK/massa-client/"
+cp -r ~/massa/massa-client/config/config.toml     "$BK/massa-client/"
+
+echo "Updating to $TAG..."
 cd ~/massa
-#git stash
-#git remote set-url origin https://github.com/massalabs/massa.git
-#git checkout mainnet
-#git pull
+git fetch --tags
+git checkout "$TAG"
 
-git fetch
-git checkout $tag
+echo "Starting massa.service (cargo will rebuild for $TAG, this takes a while)..."
+systemctl start massa.service
 
-#echo "Restoring..."
-#cp -r ~/backup/massa/massa-node/config/staking_wallets  ~/massa/massa-node/config
-#cp -r ~/backup/massa/massa-client/wallets ~/massa/massa-client
-#cp ~/backup/massa/massa-node/config/config.toml ~/massa/massa-node/config
-#cp ~/backup/massa/massa-client/config/config.toml ~/massa/massa-client/config
-
-echo "Done..."
-
- 
+echo "Done. Tail logs with: journalctl -u massa.service -f"
