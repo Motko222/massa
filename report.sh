@@ -6,17 +6,18 @@ source $path/config
 json=/root/logs/report-$folder
 
 cd /root/massa/massa-client
+client=/root/massa/target/release/massa-client
 version=$(grep -A2 "^\[workspace.package\]" /root/massa/Cargo.toml | grep "^version" | cut -d \" -f 2)
 service=$(sudo systemctl status $folder --no-pager | grep "active (running)" | wc -l)
-final_balance=$(cargo run --release -- -p $PASSWORD --json wallet_info 2>/dev/null | jq -r --arg jq_par $WALLET '.[$jq_par].address_info.final_balance' | cut -d . -f 1)
-active_rolls=$(cargo run --release -- -p $PASSWORD --json wallet_info 2>/dev/null | jq -r --arg jq_par $WALLET '.[$jq_par].address_info.active_rolls')
-node_error=$(cargo run --release -- -p $PASSWORD --json get_status 2>/dev/null | jq -r .error | sed 's/\"//g')
+final_balance=$($client -p $PASSWORD --json wallet_info 2>/dev/null | jq -r --arg jq_par $WALLET '.[$jq_par].address_info.final_balance' | cut -d . -f 1)
+active_rolls=$($client -p $PASSWORD --json wallet_info 2>/dev/null | jq -r --arg jq_par $WALLET '.[$jq_par].address_info.active_rolls')
+node_error=$($client -p $PASSWORD --json get_status 2>/dev/null | jq -r .error | sed 's/\"//g')
 errors=$(journalctl -u $folder.service --since "1 hour ago" --no-hostname -o cat | grep -c -E "rror|ERR")
 
 #autostake
 if [ $final_balance -gt 100 ]
 then
- cargo run --release -- -p $PASSWORD buy_rolls $WALLET $(( $final_balance / 100 )) 0.01 2>/dev/null
+ $client -p $PASSWORD buy_rolls $WALLET $(( $final_balance / 100 )) 0.01 2>/dev/null
 fi
 
 status="ok"; message="";
